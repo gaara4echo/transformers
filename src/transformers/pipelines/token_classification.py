@@ -318,7 +318,7 @@ class TokenClassificationPipeline(Pipeline):
                 entity_idx = pre_entity["scores"].argmax()
                 score = pre_entity["scores"][entity_idx]
                 entity = {
-                    "entity": self.model.config.id2label[entity_idx],
+                    "entity": self.model.config.id2label[str(entity_idx)],
                     "score": score,
                     "index": pre_entity["index"],
                     "word": pre_entity["word"],
@@ -350,7 +350,7 @@ class TokenClassificationPipeline(Pipeline):
             scores = np.stack([entity["scores"] for entity in entities])
             average_scores = np.nanmean(scores, axis=0)
             entity_idx = average_scores.argmax()
-            entity = self.model.config.id2label[entity_idx]
+            entity = self.model.config.id2label[str(entity_idx)]
             score = average_scores[entity_idx]
         else:
             raise ValueError("Invalid aggregation_strategy")
